@@ -7,6 +7,7 @@ from .find_events import find_events
 from .list_agents import list_agents
 from .change_goal import change_goal
 from .transfer_control import transfer_control
+from .enrich_list import enrich_list
 
 from .hr.current_pto import current_pto
 from .hr.book_pto import book_pto
@@ -71,5 +72,7 @@ def get_handler(tool_name: str):
         return give_hint
     if tool_name == "GuessLocation":
         return guess_location
+    if tool_name == "EnrichList":
+        return enrich_list
 
     raise ValueError(f"Unknown tool: {tool_name}")

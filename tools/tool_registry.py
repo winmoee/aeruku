@@ -397,3 +397,15 @@ ecomm_track_package = ToolDefinition(
         ),
     ],
 )
+
+enrich_list_tool = ToolDefinition(
+    name="EnrichList",
+    description="Enrich a list of LinkedIn profile URLs with additional information about the profiles.",
+    arguments=[
+        ToolArgument(
+            name="profileUrls",
+            type="array",
+            description="List of LinkedIn profile URLs to enrich",
+        ),
+    ],
+)
