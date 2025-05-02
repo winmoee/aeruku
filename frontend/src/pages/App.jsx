@@ -198,8 +198,8 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <NavBar title="Temporal AI Agent 🤖" />
+    <div className="flex flex-col h-screen bg-gray-900 text-gray-100">
+      <NavBar title="Aeruku AI Outreach Agent 🤖" />
 
       {error.visible && (
         <div
@@ -211,14 +211,14 @@ export default function App() {
         </div>
       )}
 
-      <div className="flex-grow flex justify-center px-4 py-2 overflow-hidden">
+      <div className="flex-grow flex justify-center px-4 py-2 overflow-hidden bg-gray-900">
         <div
-          className="w-full max-w-lg bg-white dark:bg-gray-900 p-8 px-3 rounded shadow-md 
+          className="w-full max-w-lg bg-gray-800 p-8 px-3 rounded shadow-md 
                     flex flex-col overflow-hidden"
         >
           <div
             ref={containerRef}
-            className="flex-grow overflow-y-auto pb-20 pt-10 scroll-smooth"
+            className="flex-grow overflow-y-auto pb-20 pt-10 scroll-smooth text-gray-900"
           >
             <ChatWindow
               conversation={conversation}
@@ -228,7 +228,7 @@ export default function App() {
             />
             {done && (
               <div
-                className="text-center text-sm text-gray-500 dark:text-gray-400 mt-4 
+                className="text-center text-sm text-gray-400 mt-4 
                                 animate-fade-in"
               >
                 Chat ended
@@ -240,8 +240,8 @@ export default function App() {
 
       <div
         className="fixed bottom-0 left-1/2 transform -translate-x-1/2 
-                w-full max-w-lg bg-white dark:bg-gray-900 p-4
-                border-t border-gray-300 dark:border-gray-700 shadow-lg
+                w-full max-w-lg bg-gray-900 p-4
+                border-t border-gray-700 shadow-lg
                 transition-all duration-200"
         style={{ zIndex: 10 }}
       >
@@ -255,14 +255,11 @@ export default function App() {
           <input
             ref={inputRef}
             type="text"
-            className={`flex-grow rounded-l px-3 py-2 border border-gray-300
-                            dark:bg-gray-700 dark:border-gray-600 focus:outline-none
+            className={`flex-grow rounded-l px-3 py-2 border
+                            bg-gray-800 border-gray-600 text-gray-100
+                            focus:outline-none focus:border-gray-500
                             transition-opacity duration-200
-                            ${
-                              loading || done
-                                ? 'opacity-50 cursor-not-allowed'
-                                : ''
-                            }`}
+                            ${loading || done ? 'opacity-50 cursor-not-allowed' : ''}`}
             placeholder="Type your message..."
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
@@ -273,11 +270,7 @@ export default function App() {
             type="submit"
             className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r 
                             transition-all duration-200
-                            ${
-                              loading || done
-                                ? 'opacity-50 cursor-not-allowed'
-                                : ''
-                            }`}
+                            ${loading || done ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={loading || done}
             aria-label="Send message"
           >
@@ -288,8 +281,8 @@ export default function App() {
         <div className="text-right mt-3">
           <button
             onClick={handleStartNewChat}
-            className={`text-sm underline text-gray-600 dark:text-gray-400 
-                            hover:text-gray-800 dark:hover:text-gray-200 
+            className={`text-sm underline text-gray-400 
+                            hover:text-gray-200 
                             transition-all duration-200
                             ${!done ? 'opacity-0 cursor-not-allowed' : ''}`}
             disabled={!done}

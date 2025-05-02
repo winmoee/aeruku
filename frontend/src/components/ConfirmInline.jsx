@@ -78,13 +78,12 @@ const ConfirmInline = memo(({ data, confirmed, onConfirm }) => {
   };
 
   const cardBase =
-    "mt-2 p-3 rounded-lg border-l-4 border-green-500 bg-gray-100/60 dark:bg-gray-800/60 shadow-sm";
+    "mt-2 p-3 rounded-lg border-l-4 border-primary-500 bg-white/60 dark:bg-dark-800/60 shadow-sm transition-colors duration-200";
 
-  // ===== Running state =====
   if (confirmed) {
     return (
       <div className={`${cardBase} flex items-center gap-3`} role="status">
-        <SpinnerIcon className="text-green-600 dark:text-green-400 w-4 h-4" />
+        <SpinnerIcon className="text-primary-600 dark:text-primary-400 w-4 h-4" />
         <span className="text-sm text-gray-700 dark:text-gray-200">
           Running <strong className="font-semibold">{tool ?? "Unknown"}</strong> …
         </span>
@@ -92,12 +91,10 @@ const ConfirmInline = memo(({ data, confirmed, onConfirm }) => {
     );
   }
 
-  // ===== Confirmation state =====
   return (
     <div className={`${cardBase} space-y-2`} role="group">
-      {/* Heading */}
       <div className="flex items-center gap-2">
-        <PlayIcon className="text-green-600 dark:text-green-400 w-5 h-5 shrink-0" />
+        <PlayIcon className="text-primary-600 dark:text-primary-400 w-5 h-5 shrink-0" />
         <p className="text-sm font-medium text-gray-700 dark:text-gray-200">
           Ready to run <strong>{tool ?? "Unknown"}</strong>
         </p>
@@ -138,7 +135,7 @@ const ConfirmInline = memo(({ data, confirmed, onConfirm }) => {
         <button
           onClick={onConfirm}
           onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && onConfirm()}
-          className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white text-sm px-3 py-1.5 rounded-md shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-1 animate-pulse sm:animate-none"
+          className="w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white text-sm px-3 py-1.5 rounded-md shadow-sm transition-all focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-1 animate-pulse sm:animate-none"
           aria-label={`Confirm running ${tool}`}
         >
           Confirm
