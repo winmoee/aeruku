@@ -8,6 +8,7 @@ from .change_goal import change_goal
 
 
 def get_handler(tool_name: str):
+    print(tool_name,'tool name')
     if tool_name == "SearchLeads":
         return search_leads
     if tool_name == "EnrichLead":
