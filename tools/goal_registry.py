@@ -36,21 +36,29 @@ goal_choose_agent_type = AgentGoal(
     "Help the user select an agent by gathering args for the Changegoal tool, in order: "
     "1. ListAgents: List agents available to interact with. Do not ask for user confirmation for this tool. "
     "2. ChangeGoal: Change goal of agent "
-    "After these tools are complete, change your goal to the new goal as chosen by the user. ",
+    "After these tools are complete, change your goal to the new goal as chosen by the user. "
+    "The available agents include: Find Leads (for finding potential sales leads based on criteria), "
+    "Enrich Leads (for enhancing existing leads with additional information), "
+    "Generate Emails (for creating personalized outreach emails), and "
+    "Draft Email (for creating custom emails with specific content).",
     starter_prompt=silly_prompt
     + "Welcome me, give me a description of what you can do, then ask me for the details you need to do your job. List all details of all agents as provided by the output of the first tool included in this goal. ",
     example_conversation_history="\n ".join(
-        [
-            "agent: Here are the currently available agents.",
-            "tool_result: { agents: 'agent_name': 'Event Flight Finder', 'goal_id': 'goal_event_flight_invoice', 'agent_description': 'Helps users find interesting events and arrange travel to them',"
-            "'agent_name': 'Schedule PTO', 'goal_id': 'goal_hr_schedule_pto', 'agent_description': 'Schedule PTO based on your available PTO.' }",
-            "agent: The available agents are: Event Flight Finder and Schedule PTO. \n Which agent would you like to work with? ",
-            "user: I'd like to find an event and book flights using the Event Flight Finder",
-            "user_confirmed_tool_run: <user clicks confirm on ChangeGoal tool>",
-            "tool_result: { 'new_goal': 'goal_event_flight_invoice' }",
-        ]
-    ),
+    [
+        "agent: Here are the currently available agents.",
+        "tool_result: { agents: 'agent_name': 'Find Leads', 'goal_id': 'goal_find_leads', 'agent_description': 'Find potential leads based on your target criteria.',"
+        "'agent_name': 'Enrich Leads', 'goal_id': 'goal_enrich_leads', 'agent_description': 'Enhance your existing leads with additional contact information and details.',"
+        "'agent_name': 'Generate Emails', 'goal_id': 'goal_generate_emails', 'agent_description': 'Create personalized outreach emails for your leads.',"
+        "'agent_name': 'Draft Email', 'goal_id': 'goal_draft_email', 'agent_description': 'Create custom emails to send to your leads with specific content.' }",
+        "agent: The available agents are: Find Leads, Enrich Leads, Generate Emails, and Draft Email. \n Which agent would you like to work with?",
+        "user: I'd like to find some potential sales leads for my business using the Find Leads agent",
+        "user_confirmed_tool_run: <user clicks confirm on ChangeGoal tool>",
+        "tool_result: { 'new_goal': 'goal_find_leads' }",
+    ]
+),
+
 )
+
 
 # ----- Sales Goals ---
 goal_find_leads = AgentGoal(
