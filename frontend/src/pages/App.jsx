@@ -57,7 +57,7 @@ export default function App() {
       if (prevError.visible && prevError.message === errorMessage) {
         return prevError;
       }
-      return { visible: true, message: errorMessage };
+      return { visible: false, message: errorMessage };
     });
 
     // Clear any existing timeout
