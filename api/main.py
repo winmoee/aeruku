@@ -151,6 +151,8 @@ async def send_prompt(prompt: str):
         #change to get from workflow query
     )
 
+    print(combined_input)
+
     workflow_id = "agent-workflow"
 
     # Start (or signal) the workflow
@@ -164,6 +166,15 @@ async def send_prompt(prompt: str):
     )
 
     return {"message": f"Prompt '{prompt}' sent to workflow {workflow_id}."}
+
+
+@app.post("/find-leads")
+async def find_leads():
+    """Sends a 'find_leads' signal to the workflow."""
+    workflow_id = "agent-workflow"
+    handle = temporal_client.get_workflow_handle(workflow_id)
+    await handle.signal("find_leads")
+    return {"message": "Find leads signal sent."}
 
 
 @app.post("/confirm")
