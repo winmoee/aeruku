@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar';
 import ChatWindow from '../components/ChatWindow';
 import { apiService } from '../services/api';
 
-const POLL_INTERVAL = 500; // 0.5 seconds
+const POLL_INTERVAL = 1000; // 0.5 seconds
 const INITIAL_ERROR_STATE = { visible: false, message: '' };
 const DEBOUNCE_DELAY = 300; // 300ms debounce for user input
 
@@ -35,6 +35,10 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(INITIAL_ERROR_STATE);
   const [done, setDone] = useState(true);
+
+  const [steps, setSteps] = useState(0);
+
+  const [initalLeads, setInitalLeads] = useState([]);
 
   const debouncedUserInput = useDebounce(userInput, DEBOUNCE_DELAY);
 
@@ -259,7 +263,11 @@ export default function App() {
                             bg-gray-800 border-gray-600 text-gray-100
                             focus:outline-none focus:border-gray-500
                             transition-opacity duration-200
-                            ${loading || done ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            ${
+                              loading || done
+                                ? 'opacity-50 cursor-not-allowed'
+                                : ''
+                            }`}
             placeholder="Type your message..."
             value={userInput}
             onChange={(e) => setUserInput(e.target.value)}
@@ -270,7 +278,11 @@ export default function App() {
             type="submit"
             className={`bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-r 
                             transition-all duration-200
-                            ${loading || done ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            ${
+                              loading || done
+                                ? 'opacity-50 cursor-not-allowed'
+                                : ''
+                            }`}
             disabled={loading || done}
             aria-label="Send message"
           >

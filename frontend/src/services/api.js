@@ -47,23 +47,10 @@ export const apiService = {
           },
         }
       );
+
       return handleResponse(res);
     } catch (error) {
       throw new ApiError('Failed to send message', error.status || 500);
-    }
-  },
-
-  async findLeads() {
-    try {
-      const res = await fetch(`${API_BASE_URL}/find-leads`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      return handleResponse(res);
-    } catch (error) {
-      throw new ApiError('Failed to find leads', error.status || 500);
     }
   },
 
