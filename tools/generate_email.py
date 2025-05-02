@@ -1,4 +1,10 @@
 from typing import Dict, Optional, TypedDict
+import os
+from dotenv import load_dotenv
+from openai import OpenAI
+
+# Load environment variables
+load_dotenv()
 
 class FollowUp(TypedDict):
     daysAfter: int
@@ -12,7 +18,7 @@ class EmailDraft(TypedDict):
 
 def generate_email(args: dict) -> dict:
     """
-    Generate a personalized email based on lead information and preferences.
+    Generate a personalized email based on lead information and preferences using OpenAI.
     
     Args:
         args: Dictionary containing:
@@ -29,30 +35,56 @@ def generate_email(args: dict) -> dict:
     title = args.get('title', '')
     product_description = args.get('product_description', '')
 
-    # Generate main email
-    subject = f"Discussing {product_description.split()[0]} solutions for {company_name}"
+    # Initialize OpenAI client
+    client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+
+    # Generate main email using OpenAI
+    prompt = f"""Generate a professional business email with the following details:
+    - Recipient: {lead_name}
+    - Company: {company_name}
+    - Title: {title}
+    - Product: {product_description}
     
-    body = f"""Hi {lead_name},
+    The email should be concise, professional, and focused on starting a conversation about the product.
+    Include a subject line and body."""
 
-I hope this message finds you well. I noticed your role as {title} at {company_name} and wanted to reach out regarding {product_description}.
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a professional business email writer."},
+            {"role": "user", "content": prompt}
+        ]
+    )
 
-I believe our solution could be particularly valuable for your team. Would you be open to a brief conversation to discuss how we might help?
-
-Best regards,
-[Your Name]"""
+    # Parse the response to get subject and body
+    email_content = response.choices[0].message.content
+    subject = email_content.split('\n')[0].replace('Subject: ', '')
+    body = '\n'.join(email_content.split('\n')[1:])
 
     # Generate follow-up email
+    followup_prompt = f"""Generate a professional follow-up email with the following details:
+    - Recipient: {lead_name}
+    - Company: {company_name}
+    - Product: {product_description}
+    
+    The email should be a gentle follow-up to the initial outreach."""
+
+    followup_response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "system", "content": "You are a professional business email writer."},
+            {"role": "user", "content": followup_prompt}
+        ]
+    )
+
+    followup_content = followup_response.choices[0].message.content
+    followup_subject = followup_content.split('\n')[0].replace('Subject: ', '')
+    followup_body = '\n'.join(followup_content.split('\n')[1:])
+
     followup: FollowUp = {
         "daysAfter": 3,
-        "subject": f"Following up: {subject}",
-        "body": f"""Hi {lead_name},
-
-I wanted to follow up on my previous email about {product_description}. I'd love to hear your thoughts on how we could potentially help {company_name}.
-
-Would you be available for a quick chat this week?
-
-Best regards,
-[Your Name]"""
+        "subject": followup_subject,
+        "body": followup_body
     }
 
     email_draft: EmailDraft = {
@@ -61,4 +93,35 @@ Best regards,
         "followUp": followup
     }
 
-    return email_draft
+    # Format the response for better readability
+    formatted_response = f"""
+Generated Email:
+
+Subject: {subject}
+
+{body}
+
+Follow-up Email (to be sent after 3 days):
+
+Subject: {followup_subject}
+
+{followup_body}
+"""
+
+    # Store the email draft in a format that can be accessed by the draft email functionality
+    stored_email = {
+        "email_draft": email_draft,
+        "formatted_response": formatted_response,
+        "metadata": {
+            "lead_name": lead_name,
+            "company_name": company_name,
+            "title": title,
+            "product_description": product_description
+        }
+    }
+
+    return {
+        "response": formatted_response,
+        "email_draft": email_draft,
+        "stored_email": stored_email
+    }
