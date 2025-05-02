@@ -5,7 +5,7 @@ client = OpenAI(
     api_key="arc_o16XZfJoJxU69gYxXfMbofuRB8EUceeQue3SeDiCmbzY8A69EaEY",
 )
 
-user_id = "thepeteryuanlu@gmail.com"
+user_id = "aeruku1@gmail.com"
 
 tools = [
     "GitHub.SetStarred",
@@ -15,7 +15,7 @@ tools = [
 ]
 
 def draft_email(args: dict) -> dict:
-    prompt = args.get("prompt", "Draft a professional email given the information provided")
+    prompt = args.get("prompt", "Draft a professional email")
 
     response = client.chat.completions.create(
         messages=[
@@ -24,7 +24,7 @@ def draft_email(args: dict) -> dict:
         ],
         model="gpt-4o",
         user=user_id,
-        tools=tools, 
+        tools=tools,
         tool_choice="generate",
     )
 
@@ -32,7 +32,6 @@ def draft_email(args: dict) -> dict:
         "response": response.choices[0].message.content
     }
 
-args = {"prompt": "Draft an email for me Johns email is john@gmail.com and the meeting is on Tuesday focused on Chicken"}
+args = {"prompt": "Johns email is john@gmail.com and the meeting is on Tuesday focused on Chicken"}
 result = draft_email(args)
 print(result["response"])
-
