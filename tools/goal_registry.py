@@ -60,12 +60,10 @@ goal_find_leads = AgentGoal(
     agent_friendly_description="Find potential leads based on your target criteria.",
     tools=[
         tool_registry.search_leads_tool,
-        tool_registry.save_leads_tool,
     ],
     description="The user wants to find potential sales leads based on specific criteria. "
     "Help the user gather args for these tools in order: "
-    "1. SearchLeads: Search for potential leads based on industry, company size, location, or other criteria "
-    "2. SaveLeads: Save the selected leads to the user's database for future reference ",
+    "1. SearchLeads: Search for potential leads based on industry, company size, location, or other criteria ",
     starter_prompt=starter_prompt_generic,
     example_conversation_history="\n ".join(
         [
@@ -90,13 +88,11 @@ goal_enrich_leads = AgentGoal(
     agent_name="Enrich Leads",
     agent_friendly_description="Enhance your existing leads with additional contact information and details.",
     tools=[
-        tool_registry.list_saved_leads_tool,
         tool_registry.enrich_lead_tool,
     ],
     description="The user wants to enrich their existing leads with additional information. "
     "Help the user gather args for these tools in order: "
-    "1. ListSavedLeads: Retrieve the user's saved leads from their database "
-    "2. EnrichLead: Add additional information to selected leads such as contact details, social profiles, or company information ",
+    "1. EnrichLead: Add additional information to selected leads such as contact details, social profiles, or company information ",
     starter_prompt=starter_prompt_generic,
     example_conversation_history="\n ".join(
         [
@@ -119,15 +115,12 @@ goal_generate_emails = AgentGoal(
     agent_name="Generate Emails",
     agent_friendly_description="Create personalized outreach emails for your leads.",
     tools=[
-        tool_registry.list_saved_leads_tool,
-        tool_registry.get_enriched_lead_tool,
         tool_registry.generate_email_tool,
     ],
     description="The user wants to generate personalized outreach emails for their leads. "
     "Help the user gather args for these tools in order: "
-    "1. ListSavedLeads: Retrieve the user's saved leads from their database "
-    "2. GetEnrichedLead: Get detailed information about a specific lead "
-    "3. GenerateEmail: Create a personalized outreach email based on the lead's information and the user's product/service ",
+    "1. GetEnrichedLead: Get detailed information about a specific lead "
+    "2. GenerateEmail: Create a personalized outreach email based on the lead's information and the user's product/service ",
     starter_prompt=starter_prompt_generic,
     example_conversation_history="\n ".join(
         [
@@ -147,6 +140,41 @@ goal_generate_emails = AgentGoal(
         ]
     ),
 )
+
+goal_draft_email = AgentGoal(
+    id="goal_draft_email",
+    category_tag="sales",
+    agent_name="Draft Email",
+    agent_friendly_description="Create custom emails to send to your leads with specific content.",
+    tools=[
+        tool_registry.draft_email_tool,
+    ],
+    description="The user wants to draft a custom email to a lead. "
+    "Help the user gather args for the DraftEmail tool: "
+    "1. DraftEmail: Create a custom email with specified recipient, subject, and body content.",
+    starter_prompt=starter_prompt_generic,
+    example_conversation_history="\n ".join(
+        [
+            "user: I need to write a custom email to a lead",
+            "agent: I'd be happy to help you draft a custom email. Could you please provide the recipient's email address, the subject line, and the content you'd like to include in the email?",
+            "user: The email is for sarah.johnson@techstart.com. The subject should be 'Following up on our conversation'. I want to thank her for the meeting yesterday and confirm our next steps.",
+            "agent: I'll help you draft that email. Let me confirm the details:\n\n- Recipient: sarah.johnson@techstart.com\n- Subject: Following up on our conversation\n- Content: Thank Sarah for the meeting yesterday and confirm next steps\n\nIs that correct? Would you like to add any specific details about the next steps or other points you discussed?",
+            "user: Yes, please mention that I'll send the proposal by Friday and that I look forward to our call next Tuesday at 2pm.",
+            "user_confirmed_tool_run: <user clicks confirm on DraftEmail tool>",
+            "tool_result: { 'status': 'success', 'recipient': 'sarah.johnson@techstart.com', 'subject': 'Following up on our conversation', 'body': 'Hi Sarah,\\n\\nThank you for taking the time to meet with me yesterday. I appreciated the opportunity to discuss how our services could benefit TechStart.\\n\\nAs promised, I will send over the detailed proposal by Friday for your review.\\n\\nI'm looking forward to our follow-up call next Tuesday at 2pm to address any questions you might have and discuss potential next steps.\\n\\nPlease let me know if you need any additional information in the meantime.\\n\\nBest regards,\\n[Your Name]' }",
+            "agent: I've drafted your email to Sarah Johnson. Here it is:\n\n**To:** sarah.johnson@techstart.com\n**Subject:** Following up on our conversation\n\nHi Sarah,\n\nThank you for taking the time to meet with me yesterday. I appreciated the opportunity to discuss how our services could benefit TechStart.\n\nAs promised, I will send over the detailed proposal by Friday for your review.\n\nI'm looking forward to our follow-up call next Tuesday at 2pm to address any questions you might have and discuss potential next steps.\n\nPlease let me know if you need any additional information in the meantime.\n\nBest regards,\n[Your Name]\n\nWould you like to make any changes to this email before sending it?",
+        ]
+    ),
+)
+
+# Add the new goal to the goal_list
+goal_list = [
+    goal_find_leads,
+    goal_enrich_leads,
+    goal_generate_emails,
+    goal_draft_email
+]
+
 
 # Add the goals to the goal_list
 goal_list = [
