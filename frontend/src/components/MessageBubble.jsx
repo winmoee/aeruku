@@ -33,10 +33,10 @@ const MessageBubble = memo(({ message, fallback = "", isUser = false }) => {
     return (
         <div
             className={`
-                inline-block px-4 py-2 mb-1 rounded-lg
+                inline-block px-4 py-2 mb-1 rounded-lg shadow-sm
                 ${isUser 
-                    ? "ml-auto bg-blue-100 dark:bg-blue-900 dark:text-white" 
-                    : "mr-auto bg-gray-200 dark:bg-gray-700 dark:text-white"
+                    ? "ml-auto bg-primary-600 text-white dark:bg-primary-500" 
+                    : "mr-auto bg-white dark:bg-dark-800 border border-gray-200 dark:border-gray-700"
                 }
                 break-words max-w-[75%] transition-colors duration-200
             `}
