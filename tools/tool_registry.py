@@ -1,5 +1,6 @@
 from models.tool_definitions import ToolDefinition, ToolArgument
 
+
 # ----- System tools -----
 list_agents_tool = ToolDefinition(
     name="ListAgents",
@@ -19,18 +20,8 @@ change_goal_tool = ToolDefinition(
     ],
 )
 
-give_hint_tool = ToolDefinition(
-    name="GiveHint",
-    description="Give a hint to the user regarding the location of the pirate treasure. Use previous conversation to determine the hint_total, it should initially be 0 ",
-    arguments=[
-        ToolArgument(
-            name="hint_total",
-            type="number",
-            description="How many hints have been given",
-        ),
-    ],
-)
 # ----- Sales Use Case Tools -----
+
 search_leads_tool = ToolDefinition(
     name="SearchLeads",
     description="Search for potential leads based on a query string that can include industry, company size, location, or other criteria.",
@@ -43,29 +34,6 @@ search_leads_tool = ToolDefinition(
     ],
 )
 
-save_leads_tool = ToolDefinition(
-    name="SaveLeads",
-    description="Save selected leads to the user's database for future reference.",
-    arguments=[
-        ToolArgument(
-            name="lead_ids",
-            type="string",
-            description="Comma-separated IDs of leads to save, or 'all' to save all leads from the most recent search",
-        ),
-        ToolArgument(
-            name="userConfirmation",
-            type="string",
-            description="Indication of user's desire to save the selected leads",
-        ),
-    ],
-)
-
-list_saved_leads_tool = ToolDefinition(
-    name="ListSavedLeads",
-    description="Retrieve the user's saved leads from their database.",
-    arguments=[],
-)
-
 enrich_lead_tool = ToolDefinition(
     name="EnrichLead",
     description="Add additional information to a selected lead such as contact details, social profiles, or company information.",
@@ -74,18 +42,6 @@ enrich_lead_tool = ToolDefinition(
             name="lead_id",
             type="string",
             description="ID of the lead to enrich",
-        ),
-    ],
-)
-
-get_enriched_lead_tool = ToolDefinition(
-    name="GetEnrichedLead",
-    description="Get detailed information about a specific lead that has been enriched.",
-    arguments=[
-        ToolArgument(
-            name="lead_id",
-            type="string",
-            description="ID of the lead to retrieve enriched information for",
         ),
     ],
 )
@@ -113,6 +69,28 @@ generate_email_tool = ToolDefinition(
             name="product_description",
             type="string",
             description="Description of the user's product or service and value proposition",
+        ),
+    ],
+)
+
+draft_email_tool = ToolDefinition(
+    name="DraftEmail",
+    description="Draft a custom email to a lead. Allows the user to specify the recipient, subject, and body of the email.",
+    arguments=[
+        ToolArgument(
+            name="recipient_email",
+            type="string",
+            description="Email address of the recipient",
+        ),
+        ToolArgument(
+            name="subject",
+            type="string",
+            description="Subject line of the email",
+        ),
+        ToolArgument(
+            name="body",
+            type="string",
+            description="Main content of the email",
         ),
     ],
 )
