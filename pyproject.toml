@@ -1,0 +1,63 @@
+[tool.poetry]
+name = "temporal_AI_agent"
+version = "0.2.0"
+description = "Temporal AI Agent"
+license = "MIT"
+authors = [
+    "Steve Androulakis <steve.androulakis@temporal.io>",
+    "Laine Smith <lainecaseysmith@gmail.com>",
+    "Joshua Smith <josh.smith@temporal.io>"
+]
+readme = "README.md"
+
+# By default, Poetry will find packages automatically, 
+# but explicitly including them is fine:
+packages = [
+  { include = "**/*.py", from = "." }
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/temporal-community/temporal-ai-agent/issues"
+
+[tool.poe.tasks]
+format = [{cmd = "black ."}, {cmd = "isort ."}]
+lint = [{cmd = "black --check ."}, {cmd = "isort --check-only ."}, {ref = "lint-types" }]
+lint-types = "mypy --check-untyped-defs --namespace-packages ."
+test = "pytest"
+
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+temporalio = "^1.8.0"
+
+# Standard library modules (e.g. asyncio, collections) don't need to be added
+# since they're built-in for Python 3.8+.
+ollama = "^0.4.5"
+pyyaml = "^6.0.2"
+fastapi = "^0.115.6"
+uvicorn = "^0.34.0"
+python-dotenv = "^1.0.1"
+openai = "^1.59.2"
+stripe = "^11.4.1"
+google-generativeai = "^0.8.4"
+anthropic = "0.47.0"
+deepseek = "^1.0.0"
+requests = "^2.32.3"
+pandas = "^2.2.3"
+gtfs-kit = "^10.1.1"
+
+[tool.poetry.group.dev.dependencies]
+pytest = ">=8.2"
+pytest-asyncio = "^0.26.0"
+black = "^23.7"
+isort = "^5.12"
+
+[build-system]
+requires = ["poetry-core>=1.4.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+log_cli = true
+log_cli_level = "INFO"
+log_cli_format = "%(asctime)s [%(levelname)8s] %(message)s (%(filename)s:%(lineno)s)"
+asyncio_default_fixture_loop_scope = "function"
