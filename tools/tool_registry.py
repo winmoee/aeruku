@@ -36,12 +36,12 @@ search_leads_tool = ToolDefinition(
 
 enrich_lead_tool = ToolDefinition(
     name="EnrichLead",
-    description="Add additional information to a selected lead such as contact details, social profiles, or company information.",
+    description="Enrich LinkedIn profiles with additional information using the MCP server's LinkedIn Profile Scraper.",
     arguments=[
         ToolArgument(
-            name="lead_id",
-            type="string",
-            description="ID of the lead to enrich",
+            name="profileUrls",
+            type="array",
+            description="Array of LinkedIn profile URLs to enrich",
         ),
     ],
 )
