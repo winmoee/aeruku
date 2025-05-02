@@ -94,25 +94,22 @@ goal_enrich_leads = AgentGoal(
     id="goal_enrich_leads",
     category_tag="sales",
     agent_name="Enrich Leads",
-    agent_friendly_description="Enhance your existing leads with additional contact information and details.",
+    agent_friendly_description="Enhance LinkedIn profiles with additional information using the MCP server's LinkedIn Profile Scraper.",
     tools=[
         tool_registry.enrich_lead_tool,
     ],
-    description="The user wants to enrich their existing leads with additional information. "
+    description="The user wants to enrich LinkedIn profiles with additional information. "
     "Help the user gather args for these tools in order: "
-    "1. EnrichLead: Add additional information to selected leads such as contact details, social profiles, or company information ",
+    "1. EnrichLead: Enrich LinkedIn profiles with additional information using the MCP server's LinkedIn Profile Scraper",
     starter_prompt=starter_prompt_generic,
     example_conversation_history="\n ".join(
         [
-            "user: I need to get more information about my leads",
-            "agent: I'd be happy to help you enrich your leads with additional information. First, let's retrieve your saved leads from the database.",
-            "user_confirmed_tool_run: <user clicks confirm on ListSavedLeads tool>",
-            "tool_result: { 'leads': [{'id': '1', 'company_name': 'TechStart Inc.', 'industry': 'Software', 'location': 'San Francisco, CA', 'size': '120 employees', 'website': 'techstart.com'}, {'id': '2', 'company_name': 'DataFlow Systems', 'industry': 'Data Analytics', 'location': 'San Francisco, CA', 'size': '85 employees', 'website': 'dataflowsys.com'}, {'id': '3', 'company_name': 'CloudNine Solutions', 'industry': 'Cloud Computing', 'location': 'San Francisco, CA', 'size': '175 employees', 'website': 'cloudninesol.com'}] }",
-            "agent: I found 3 leads in your database:\n\n1. TechStart Inc. (ID: 1)\n   - Industry: Software\n   - Location: San Francisco, CA\n   - Size: 120 employees\n   - Website: techstart.com\n\n2. DataFlow Systems (ID: 2)\n   - Industry: Data Analytics\n   - Location: San Francisco, CA\n   - Size: 85 employees\n   - Website: dataflowsys.com\n\n3. CloudNine Solutions (ID: 3)\n   - Industry: Cloud Computing\n   - Location: San Francisco, CA\n   - Size: 175 employees\n   - Website: cloudninesol.com\n\nWhich lead would you like to enrich with additional information?",
-            "user: Let's enrich TechStart Inc.",
+            "user: I need to get more information about some LinkedIn profiles",
+            "agent: I'd be happy to help you enrich LinkedIn profiles with additional information. Please provide the LinkedIn profile URLs you'd like to enrich.",
+            "user: Here are the profiles: https://www.linkedin.com/in/williamhgates and https://www.linkedin.com/in/jeannie-wyrick-b4760710a",
             "user_confirmed_tool_run: <user clicks confirm on EnrichLead tool>",
-            "tool_result: { 'lead_id': '1', 'enriched_data': {'company_name': 'TechStart Inc.', 'industry': 'Software', 'location': 'San Francisco, CA', 'size': '120 employees', 'website': 'techstart.com', 'founded': '2018', 'key_people': [{'name': 'Sarah Johnson', 'title': 'CEO', 'email': 'sarah.johnson@techstart.com', 'linkedin': 'linkedin.com/in/sarahjohnson'}, {'name': 'Michael Chen', 'title': 'CTO', 'email': 'michael.chen@techstart.com', 'linkedin': 'linkedin.com/in/michaelchen'}], 'funding': '$12M Series A', 'technologies': ['React', 'Node.js', 'AWS'], 'competitors': ['CodeCraft', 'DevSphere']} }",
-            "agent: I've successfully enriched the information for TechStart Inc. Here's what I found:\n\n**TechStart Inc.**\n- Founded: 2018\n- Funding: $12M Series A\n- Technologies: React, Node.js, AWS\n- Competitors: CodeCraft, DevSphere\n\n**Key People:**\n1. Sarah Johnson - CEO\n   - Email: sarah.johnson@techstart.com\n   - LinkedIn: linkedin.com/in/sarahjohnson\n\n2. Michael Chen - CTO\n   - Email: michael.chen@techstart.com\n   - LinkedIn: linkedin.com/in/michaelchen\n\nWould you like to enrich any other leads?",
+            "tool_result: { 'status': 'success', 'enriched_profiles': [{'profile_url': 'https://www.linkedin.com/in/williamhgates', 'name': 'William H. Gates', 'title': 'Co-chair, Bill & Melinda Gates Foundation', 'company': 'Bill & Melinda Gates Foundation', 'location': 'Seattle, Washington, United States', 'connections': 500, 'summary': 'Co-chair of the Bill & Melinda Gates Foundation...', 'skills': ['Philanthropy', 'Technology', 'Global Health', 'Education'], 'education': [{'school': 'Harvard University', 'degree': 'Dropped Out', 'years': '1973-1975'}], 'experience': [{'company': 'Bill & Melinda Gates Foundation', 'title': 'Co-chair', 'duration': '2000-Present'}]}, {'profile_url': 'https://www.linkedin.com/in/jeannie-wyrick-b4760710a', 'name': 'Jeannie Wyrick', 'title': 'Senior Software Engineer', 'company': 'Example Corp', 'location': 'San Francisco, CA', 'connections': 500, 'summary': 'Experienced software engineer...', 'skills': ['Python', 'Machine Learning', 'AI'], 'education': [{'school': 'Example University', 'degree': 'B.S. Computer Science', 'years': '2015-2019'}], 'experience': [{'company': 'Example Corp', 'title': 'Senior Software Engineer', 'duration': '2019-Present'}]}] }",
+            "agent: I've successfully enriched the LinkedIn profiles. Here's what I found:\n\n**William H. Gates**\n- Title: Co-chair, Bill & Melinda Gates Foundation\n- Location: Seattle, Washington, United States\n- Connections: 500+\n- Skills: Philanthropy, Technology, Global Health, Education\n- Education: Harvard University (1973-1975)\n- Experience: Co-chair at Bill & Melinda Gates Foundation (2000-Present)\n\n**Jeannie Wyrick**\n- Title: Senior Software Engineer\n- Company: Example Corp\n- Location: San Francisco, CA\n- Skills: Python, Machine Learning, AI\n- Education: B.S. Computer Science from Example University (2015-2019)\n- Experience: Senior Software Engineer at Example Corp (2019-Present)\n\nWould you like to enrich any other LinkedIn profiles?",
         ]
     ),
 )
