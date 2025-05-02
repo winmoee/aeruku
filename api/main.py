@@ -83,6 +83,8 @@ async def get_conversation_history():
             WorkflowExecutionStatus.WORKFLOW_EXECUTION_STATUS_FAILED,
         ]
 
+        print(handle)
+
         description = await handle.describe()
         if description.status in failed_states:
             print("Workflow is in a failed state. Returning empty history.")
@@ -204,6 +206,8 @@ async def end_chat():
 @app.post("/start-workflow")
 async def start_workflow():
     initial_agent_goal = get_initial_agent_goal()
+
+    print(initial_agent_goal)
 
     # Create combined input
     combined_input = CombinedInput(

@@ -167,20 +167,14 @@ goal_draft_email = AgentGoal(
     ),
 )
 
-# Add the new goal to the goal_list
+
+# Add the goals to the goal_list
 goal_list = [
+    goal_choose_agent_type,
     goal_find_leads,
     goal_enrich_leads,
     goal_generate_emails,
     goal_draft_email
-]
-
-
-# Add the goals to the goal_list
-goal_list = [
-    goal_find_leads,
-    goal_enrich_leads,
-    goal_generate_emails
 ]
 
 
